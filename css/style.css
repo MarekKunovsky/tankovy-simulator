@@ -1,0 +1,515 @@
+/* Navigační panel – pozadí, rozložení vodorovně */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #333;       /* tmavé pozadí */
+    padding: 0.5rem 1rem;         /* vnitřní odsazení nahoře/dole a po stranách */
+  }
+
+.nav-copyright {
+    color: #fff;
+    font-size: 1rem;
+}
+
+  /* Seznam uvnitř navigace: vodorovně a bez odrážek */
+  .nav-list {
+    list-style: none;             /* vypne seznam */
+    margin: 0;                    /* reset odsazení */
+    padding: 0;                   /* reset odsazení */
+    display: flex;                /* položky vedle sebe */
+    gap: 1rem;                    /* mezera mezi odkazy */
+  }
+  
+  /* Odkaz – barva, odsazení a interaktivita */
+  .nav-list a {
+    color: #fff;                  /* bílý text */
+    text-decoration: none;        /* odstraní podtržení */
+    padding: 0.5rem;              /* klikací plocha */
+  }
+  
+  /* Při najetí myší */
+  .nav-list a:hover {
+    background-color: #555;       /* tmavší šedá */
+    border-radius: 4px;           /* zaoblení rohů */
+  }
+
+    .nadpis {
+        text-align: center;
+    }
+    
+    .odstavec{
+        text-align: center;
+    }
+
+    .game-box {
+        display: block;
+        width: 400px;
+        height: 600px;
+        margin: 2rem auto 0;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        text-decoration: none;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .game-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+    .games {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    
+    body {
+      background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #ffffff 20%,
+        #878787 100%
+      );
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .button {
+      display: block;
+      background-color: #00ff0d;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      margin: 0 auto;
+      margin-top: 0px;
+      width: 200px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2rem; /* nebo px, např. 18px */
+      font-weight: bold;       /* tučné písmo */
+      text-transform: uppercase; /* všechna písmena velká */
+      letter-spacing: 1px;     /* mezery mezi písmeny */
+    }
+    
+    .button:hover {
+      background-color: #00cc0a; /* tmavší zelená při přejetí */
+    }
+    
+    .textovepole {
+      display: block;
+      width: 400px;
+      height: 600px;
+      margin: 2rem auto 0;
+      border: 2px solid #cccccccb;
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: #f9f9f9ea;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      margin-top: 0px;
+      margin: 0 auto;
+  }
+
+  .container1 {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 50px;
+    margin-top: -80px;
+  }
+
+  .dotazy {
+    display: block;
+    width: 600px;
+    height: 600px;
+    border: 2px solid #000000;
+    background-color: #f9f9f9c4;
+    border-radius: 16px;
+  }
+
+  .dotazy-formular {
+    max-width: 400px;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .dotazy-formular label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+  }
+  
+  .dotazy-formular input,
+  .dotazy-formular textarea {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    resize: vertical; /* textarea bude vertikálně resizable */
+  }
+  
+  .dotazy-formular button {
+    background-color: #00ff0d;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dotazy-formular button:hover {
+    background-color: #00cc0a;
+  }
+
+  .dotazynadpis {
+    text-align: center;
+  }
+
+  .hand {
+    position: absolute;
+    display: flex;
+    gap: 0.5rem;
+   }
+   .bottom { bottom: 1rem; left: 50%; transform: translateX(-50%); }
+   .top    { top:    1rem; left: 50%; transform: translateX(-50%); }
+   .left   { left:   1rem; top:  50%; transform: translateY(-50%) rotate(-90deg); }
+   .right  { right:  1rem; top:  50%; transform: translateY(-50%) rotate(90deg); }
+   .card {
+    width:  60px;
+    height: 90px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+   }
+   .card-back {
+    background-color: #333;
+    cursor: default;
+   }
+   .pile {
+    position: absolute;
+    width: 60px;
+    height: 90px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px dashed #666;
+   }
+
+   /* ------------ LOG pod odkládacím balíčkem ------------ */
+  .log {
+  position: absolute;
+  top: calc(50% + 60px);      /* 50% shora + polovina výšky karty (~ 45px) + malý posun */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;               /* upravte podle potřeby */
+  max-height: 150px;
+  overflow-y: auto;           /* scroll když je víc textu */
+  padding: 0.5rem;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #666;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  font-size: 0.9rem;
+  line-height: 1.2;
+ }
+ /* ------------ Štítek s názvem hráče ------------ */
+ .player-label {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+ }
+
+ /* ------------ Hero sekce ------------ */
+
+.hero {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: linear-gradient(
+
+      to bottom,
+
+      rgba(0, 0, 0, 0.5) 0%,
+
+      rgba(0, 0, 0, 0.5) 100%
+
+    ),
+
+    url('../images/hero-bg.jpg') no-repeat center/cover;
+
+  height: 60vh;
+
+  color: #fff;
+
+  text-align: center;
+
+}
+
+.hero-content {
+
+  max-width: 800px;
+
+  padding: 0 1rem;
+
+}
+
+.hero-title {
+
+  font-size: 3rem;
+
+  margin-bottom: 0.5rem;
+
+}
+
+.hero-subtitle {
+
+  font-size: 1.25rem;
+
+  margin-bottom: 1.5rem;
+
+}
+
+/* Univerzální tlačítko */
+
+.btn {
+
+  display: inline-block;
+
+  text-decoration: none;
+
+  padding: 0.75rem 2rem;
+
+  border-radius: 6px;
+
+  font-weight: bold;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  transition: background-color 0.3s ease;
+
+}
+
+.btn-primary {
+
+  background-color: #00ff0d;
+
+  color: #fff;
+
+}
+
+.btn-primary:hover {
+
+  background-color: #00cc0a;
+
+}
+
+/* Grid pro herní boxy */
+
+.games {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 1rem;
+
+  padding: 2rem;
+
+}
+
+.game-box {
+
+  height: 300px;
+
+  border: 2px solid #ccc;
+
+  border-radius: 8px;
+
+  background-color: #f9f9f9;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+
+}
+
+.game-box:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+}
+
+/* Footer */
+
+.site-footer {
+
+  text-align: center;
+
+  padding: 1rem 0;
+
+  background-color: #333;
+
+  color: #fff;
+
+  margin-top: auto;
+
+}
+
+/* Grid karet pro tutoriál */
+
+.cards-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 1.5rem;
+
+  padding: 2rem;
+
+}
+
+.card {
+
+  background-color: #f9f9f9;
+
+  border-radius: 8px;
+
+  padding: 2rem;
+
+  text-decoration: none;
+
+  color: #333;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  transition: transform 0.2s, box-shadow 0.2s;
+
+}
+
+.card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+}
+ 
+/* 1. Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+/* 2. Reset a základ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+ font-family: 'Montserrat', sans-serif;
+ font-size: 16px;
+ line-height: 1.6;
+ color: #333;
+ background: #f5f5f5;
+}
+a { text-decoration: none; color: inherit; }
+/* 3. Navigace */
+.navbar {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ background-color: #1a1a1a;
+ padding: 1rem 2rem;
+}
+.nav-list { display: flex; gap: 1.5rem; }
+.nav-list a {
+ color: #fff;
+ font-weight: 500;
+ transition: color 0.2s;
+}
+.nav-list a.active,
+.nav-list a:hover { color: #00ff0d; }
+.nav-copyright { color: #aaa; }
+/* 4. Barevný pásek pod navigací */
+.section-band {
+ height: 5px;
+ background: linear-gradient(to right, #00ff0d, #006600);
+}
+/* 5. Page header (hero pro Domů, stripe pro ostatní) */
+.page-header {
+ text-align: center;
+ padding: 3rem 1rem;
+ background-color: #fff;
+ position: relative;
+}
+.page-header.dark {
+ background-color: #1a1a1a;
+ color: #fff;
+}
+.page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.page-header p { font-size: 1.2rem; color: #555; }
+.page-header.dark p { color: #ccc; }
+/* 6. Obsahová sekce s kartami */
+.page-content {
+ max-width: 900px;
+ margin: 2rem auto;
+ padding: 0 1rem;
+ display: grid;
+ gap: 1.5rem;
+}
+.content-card {
+ background-color: #fff;
+ border-radius: 8px;
+ padding: 1.5rem;
+ box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ border-left: 6px solid #00ff0d;
+ transition: transform 0.2s, box-shadow 0.2s;
+}
+.content-card:hover {
+ transform: translateY(-3px);
+ box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+/* 7. Tlačítka */
+.btn {
+ display: inline-block;
+ padding: 0.75rem 2rem;
+ border-radius: 6px;
+ font-weight: 500;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ transition: background 0.3s;
+}
+.btn-primary {
+ background-color: #00ff0d;
+ color: #1a1a1a;
+}
+.btn-primary:hover { background-color: #00cc0a; }
+/* 8. Footer */
+.site-footer {
+ text-align: center;
+ padding: 1rem;
+ background-color: #1a1a1a;
+ color: #aaa;
+ margin-top: 4rem;
+}
