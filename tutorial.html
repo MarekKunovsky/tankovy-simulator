@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tutoriál</title>
+<title>Tutoriál | Tankový simulátor</title>
 <link rel="stylesheet" href="css/style.css" />
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K0T6FBJQ4Z"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){ dataLayer.push(arguments); }
+ gtag('js', new Date());
+ gtag('config', 'G-K0T6FBJQ4Z');
+</script>
+
 <script src="js/script.js" defer></script>
 </head>
 <body>
@@ -17,22 +27,27 @@
 </ul>
 <span class="nav-copyright">© 2025</span>
 </nav>
+<!-- zelený pruh -->
+<div class="section-band"></div>
+<!-- tmavý nadpis -->
+<header class="page-header dark">
+<h1>Tutoriál</h1>
+<p>Projděte si základní herní mechaniky před startem hry.</p>
+</header>
 <main>
-<h1 class="nadpis">Tutoriál</h1>
-<p class="odstavec">Projděte si základní herní mechaniky před startem hry.</p>
-<div class="cards-grid">
-<a href="tutorial1.html" class="card">
-<h2>Základy ovládání</h2>
-<p>Jak pohybovat tankem a střílet.</p>
-</a>
-<a href="tutorial2.html" class="card">
-<h2>Taktika a strategie</h2>
-<p>Krytí, úhly střelby a plánování útoku.</p>
-</a>
-<a href="tutorial3.html" class="card">
-<h2>Pokročilé mechaniky</h2>
-<p>Systém poškození, upgrady a moduly.</p>
-</a>
+<div class="tutorial-grid">
+<div class="tutorial-item">
+<a href="tutorial1.html" class="btn btn-primary">Základy ovládání</a>
+<p class="item-desc">Jak se pohybovat s tankem a střílet.</p>
+</div>
+<div class="tutorial-item">
+<a href="tutorial2.html" class="btn btn-primary">Poškození &amp; životy</a>
+<p class="item-desc">Vysvětlení mechanik střelby a životů.</p>
+</div>
+<div class="tutorial-item">
+<a href="tutorial3.html" class="btn btn-primary">Pancíř &amp; průbojnost</a>
+<p class="item-desc">Vysvětlení mechanik pancíře a jeho prostřelení.</p>
+</div>
 </div>
 </main>
 <footer class="site-footer">
@@ -40,3 +55,4 @@
 </footer>
 </body>
 </html>
+ 

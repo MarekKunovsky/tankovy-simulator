@@ -1,4 +1,3 @@
-// js/tank-scene.js
 import * as THREE     from 'https://unpkg.com/three@0.156.0/build/three.module.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.156.0/examples/jsm/loaders/GLTFLoader.js';
 ////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +14,8 @@ document.addEventListener('pointerlockchange', () => {
 window.addEventListener('keyup', e => {
  if (e.key === 'Control') container.requestPointerLock();
 });
+// ** Auto-lock immediately on load **
+container.requestPointerLock();
 ////////////////////////////////////////////////////////////////////////////////
 // 2) Scéna + kamera (sférické souřadnice)
 const scene = new THREE.Scene();
@@ -44,6 +45,15 @@ window.addEventListener('keydown', e => {
  if (keys[e.key] !== undefined) keys[e.key] = 1;
  if (e.key === 'Shift') {
    sniperMode = !sniperMode;
+   // realign camera to barrel on entering sniper
+   if (sniperMode && pGun) {
+     const quat = new THREE.Quaternion();
+     pGun.getWorldQuaternion(quat);
+     const dir = new THREE.Vector3(0,0,1).applyQuaternion(quat).normalize();
+     // spherical: phi = angle from y‐axis, theta = around y
+     spherical.phi   = Math.acos(dir.y);
+     spherical.theta = Math.atan2(dir.x, dir.z);
+   }
    crosshair.style.display = sniperMode ? 'block' : 'none';
    if (pTurret && pGun) {
      pTurret.visible = !sniperMode;
@@ -110,16 +120,16 @@ playerTank.userData = {
  moveDispersion:     0.002,   // full when at max speed
  chassisDispersion:  0.0015,  // full when yawing 5s
  turretDispersion:   0.0005,  // full when turret yawing 5s
- chassisTimeToFull:  5.0,     // seconds to full
- turretTimeToFull:   5.0,     // seconds to full
- currentShotDisp:    0       // extra from firing
+ chassisTimeToFull:  5.0,
+ turretTimeToFull:   5.0,
+ currentShotDisp:    0
 };
 enemyTank.userData = { hp:3000, maxHp:3000 };
 let pTurret, pGun, eTurret, eGun, barOffsetY;
-const enemyMeshes  = [];
-const turnSpeed    = THREE.MathUtils.degToRad(20);
-const MAX_PITCH    = THREE.MathUtils.degToRad(24);
-const MIN_PITCH    = THREE.MathUtils.degToRad(-8);
+const enemyMeshes = [];
+const turnSpeed   = THREE.MathUtils.degToRad(20);
+const MAX_PITCH   = THREE.MathUtils.degToRad(24);
+const MIN_PITCH   = THREE.MathUtils.degToRad(-8);
 // dispersion ring (bright yellow, always on top)
 let dispersionRing;
 {
@@ -140,10 +150,9 @@ let dispersionRing;
 loader.load('models/Mapa.glb', gltf => scene.add(gltf.scene));
 loader.load('models/Maus_Tank.glb', gltf => {
  gltf.scene.traverse(n => { if (n.isMesh) console.log('loaded mesh:',n.name); });
- const rp = gltf.scene.clone(true),
-       re = gltf.scene.clone(true);
+ const rp = gltf.scene.clone(true), re = gltf.scene.clone(true);
  playerTank.add(rp); setupTank(rp, playerTank, true);
- enemyTank.add(re);  setupTank(re,  enemyTank,  false);
+ enemyTank.add(re);  setupTank(re, enemyTank, false);
 });
 ////////////////////////////////////////////////////////////////////////////////
 // 9) setupTank
@@ -175,7 +184,6 @@ function setupTank(root, grp, isPlayer) {
  guns.forEach(m => gP.attach(m));
  if (isPlayer) { pTurret = tP; pGun = gP; }
  else           { eTurret = tP; eGun = gP; }
- // enemy meshes for raycast
  root.traverse(n => { if (n.isMesh && !isPlayer) enemyMeshes.push(n); });
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -183,8 +191,7 @@ function setupTank(root, grp, isPlayer) {
 const barGeo = new THREE.PlaneGeometry(0.03,0.01);
 const bgMat  = new THREE.MeshBasicMaterial({ color:0x333333 });
 const fgMat  = new THREE.MeshBasicMaterial({ color:0x00ff00 });
-const pBG = new THREE.Mesh(barGeo,bgMat),
-     pFG = new THREE.Mesh(barGeo,fgMat);
+const pBG = new THREE.Mesh(barGeo,bgMat), pFG = new THREE.Mesh(barGeo,fgMat);
 [pBG,pFG].forEach(m => { m.rotation.x=-Math.PI/2; scene.add(m); });
 const eBG = pBG.clone(), eFG = pFG.clone(); scene.add(eBG,eFG);
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,14 +203,11 @@ const ray         = new THREE.Raycaster();
 window.addEventListener('mousedown', e => {
  if (e.button!==0 || !pGun) return;
  const ud = playerTank.userData;
- // add shot dispersion
  ud.currentShotDisp = Math.min(ud.currentShotDisp + ud.shotDispersion, ud.maxDispersion);
- // spawn shot
  const shot = new THREE.Mesh(projGeo,projMat);
  const origin= new THREE.Vector3(); pGun.getWorldPosition(origin);
  const quat  = new THREE.Quaternion(); pGun.getWorldQuaternion(quat);
  shot.position.copy(origin);
- // random direction in cone
  const cosMax = Math.cos(ud.baseDispersion + ud.currentShotDisp);
  const z      = cosMax + (1-cosMax)*Math.random();
  const sinT   = Math.sqrt(1-z*z);
@@ -224,11 +228,9 @@ window.addEventListener('resize', ()=>{
 // 13) Hlavní animační smyčka
 const clock = new THREE.Clock();
 (function animate(){
- const dt = clock.getDelta();
- const ud = playerTank.userData;
+ const dt = clock.getDelta(), ud = playerTank.userData;
  // a) pohyb + chassis yaw
  if (playerTank) {
-   // forward/back
    const maxS=0.075, acc=maxS/6, drag=maxS/0.3;
    let v = ud.speed;
    if      (keys.w) v = Math.min(maxS, v+acc*dt);
@@ -236,20 +238,19 @@ const clock = new THREE.Clock();
    else             v = v>0 ? Math.max(0, v-drag*dt) : Math.min(0, v+drag*dt);
    ud.speed = v;
    playerTank.translateZ(v*dt);
-   // chassis yaw
    if (keys.a) playerTank.rotation.y += turnSpeed*dt;
    if (keys.d) playerTank.rotation.y -= turnSpeed*dt;
  }
  // b) turret yaw
  if (pTurret && !rightDown) {
-   const wp  = new THREE.Vector3(); pTurret.getWorldPosition(wp);
-   const camD= sniperMode
+   const wp   = new THREE.Vector3(); pTurret.getWorldPosition(wp);
+   const camD = sniperMode
      ? spherical.theta
      : Math.atan2(camera.position.x-wp.x, camera.position.z-wp.z);
-   const tgt = camD - playerTank.rotation.y + (sniperMode?0:Math.PI);
-   const diff= Math.atan2(Math.sin(tgt-pTurret.rotation.y),
-                          Math.cos(tgt-pTurret.rotation.y));
-   const d   = THREE.MathUtils.clamp(diff, -turnSpeed*dt, turnSpeed*dt);
+   const tgt  = camD - playerTank.rotation.y + (sniperMode?0:Math.PI);
+   const diff = Math.atan2(Math.sin(tgt-pTurret.rotation.y),
+                           Math.cos(tgt-pTurret.rotation.y));
+   const d    = THREE.MathUtils.clamp(diff, -turnSpeed*dt, turnSpeed*dt);
    pTurret.rotation.y += d;
  }
  // c) gun pitch
@@ -258,37 +259,27 @@ const clock = new THREE.Clock();
      ? (Math.PI/2 - spherical.phi)
      : (spherical.phi - Math.PI/2);
    raw = THREE.MathUtils.clamp(raw, MIN_PITCH, MAX_PITCH);
-   const dX = THREE.MathUtils.clamp(-raw - pGun.rotation.x, -turnSpeed*dt, turnSpeed*dt);
-   pGun.rotation.x += dX;
+   const dx = THREE.MathUtils.clamp(-raw - pGun.rotation.x, -turnSpeed*dt, turnSpeed*dt);
+   pGun.rotation.x += dx;
  }
  // d) progressive dispersion
- // reset shot decay
  ud.currentShotDisp = Math.max(0, ud.currentShotDisp - ud.recoverSpeed*dt);
- // movement factor
  const moveF = Math.min(1, Math.abs(ud.speed)/0.075);
  const dispMove = moveF * ud.moveDispersion;
- // chassis factor ramp
  let dispCh  = 0;
  if (keys.a||keys.d) {
    dispCh = Math.min(ud.chassisDispersion,
-     (Math.min(ud.chassisTimeToFull, clock.elapsedTime)/ud.chassisTimeToFull)*ud.chassisDispersion
+     (Math.min(ud.chassisTimeToFull, clock.elapsedTime)/ud.chassisTimeToFull)*
+     ud.chassisDispersion
    );
  }
- // turret factor ramp
  let dispTur = 0;
- // detect if turret yawed this frame
- // simplest: if keys a/d in sniperMode or auto yaw diff>0
- // here approximate by checking diff from last frame
- // for simplicity, if pTurret.rotation changed:
- if (pTurret) {
-   // we skip perfect diff calc, just assume ramp if keys a/d
-   if (keys.a||keys.d) {
-     dispTur = Math.min(ud.turretDispersion,
-       (Math.min(ud.turretTimeToFull, clock.elapsedTime)/ud.turretTimeToFull)*ud.turretDispersion
-     );
-   }
+ if (pTurret && (keys.a||keys.d)) {
+   dispTur = Math.min(ud.turretDispersion,
+     (Math.min(ud.turretTimeToFull, clock.elapsedTime)/ud.turretTimeToFull)*
+     ud.turretDispersion
+   );
  }
- // total
  let totalDisp = ud.baseDispersion + dispMove + dispCh + dispTur + ud.currentShotDisp;
  totalDisp = THREE.MathUtils.clamp(totalDisp, ud.baseDispersion, ud.maxDispersion);
  // e) update ring
@@ -312,11 +303,9 @@ const clock = new THREE.Clock();
    const hits = ray.intersectObjects(enemyMeshes,false);
    if (hits.length) {
      enemyTank.userData.hp = Math.max(0,enemyTank.userData.hp-500);
-     scene.remove(p.mesh);
-     projectiles.splice(i,1);
+     scene.remove(p.mesh); projectiles.splice(i,1);
    } else if (curr.distanceTo(camera.position)>50) {
-     scene.remove(p.mesh);
-     projectiles.splice(i,1);
+     scene.remove(p.mesh); projectiles.splice(i,1);
    } else {
      p.prev.copy(curr);
    }
@@ -328,8 +317,7 @@ const clock = new THREE.Clock();
    bg.position.set(c.x,c.y+barOffsetY,c.z);
    fg.position.set(c.x-(0.03*(1-hp/mx))/2,c.y+barOffsetY,c.z);
    fg.scale.x = THREE.MathUtils.clamp(hp/mx,0,1);
-   bg.lookAt(camera.position);
-   fg.lookAt(camera.position);
+   bg.lookAt(camera.position); fg.lookAt(camera.position);
  });
  // h) camera & render
  const ctr = new THREE.Vector3();
@@ -343,9 +331,7 @@ const clock = new THREE.Clock();
    crosshair.style.display = 'block';
  } else {
    playerTank.getWorldPosition(ctr);
-   camera.position.copy(
-     new THREE.Vector3().setFromSpherical(spherical).add(ctr)
-   );
+   camera.position.copy(new THREE.Vector3().setFromSpherical(spherical).add(ctr));
    camera.lookAt(ctr);
    crosshair.style.display = 'none';
  }

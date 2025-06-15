@@ -513,3 +513,153 @@ a { text-decoration: none; color: inherit; }
  color: #aaa;
  margin-top: 4rem;
 }
+/* Tutoriál: sjednocení vzhledu headeru */
+header.page-header.dark {
+ background-color: #1a1a1a;  /* tmavé pozadí */
+ color: #fff;
+ padding: 2rem 1rem;
+ text-align: center;
+}
+/* Karty v tutoriálu: vystředění a čitelnost */
+.cards-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ gap: 2rem;
+ padding: 2rem 1rem;
+ justify-items: center;
+}
+.card {
+ max-width: 280px;
+ text-align: center;
+}
+.card h2 {
+ margin-bottom: 0.75rem;
+}
+.card p {
+ margin: 0;
+ font-size: 0.95rem;
+ color: #555;
+}
+/* Grid pro tlačítka v tutoriálu */
+.tutorial-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 2rem;
+ padding: 2rem 1rem;
+ justify-items: center;
+}
+/* Kontejner jedné lekce */
+.tutorial-item {
+ text-align: center;
+}
+/* Velké zelené tlačítko */
+.tutorial-item .btn-primary {
+ display: inline-block;
+ padding: 1rem 2rem;
+ font-size: 1.1rem;
+ width: 100%;
+ max-width: 240px;
+}
+/* Popis pod tlačítkem */
+.item-desc {
+ margin-top: 0.5rem;
+ font-size: 0.95rem;
+ color: #555;
+ line-height: 1.4;
+}
+/* Bílý page-header */
+.page-header {
+ background-color: #fff;
+ color: #333;
+ text-align: center;
+ padding: 2rem 1rem;
+ border-bottom: 1px solid #e0e0e0;
+}
+.page-header h1 {
+ font-size: 2rem;
+ margin-bottom: 0.5rem;
+}
+.page-header p {
+ font-size: 1rem;
+ color: #555;
+}
+/* Kontejner pro obsah podstránek */
+.page-content {
+ max-width: 800px;
+ margin: 2rem auto;
+ padding: 0 1rem;
+}
+/* „Card“ efekt pro tutoriál */
+.content-card {
+ background-color: #fff;
+ border-radius: 8px;
+ padding: 1.5rem;
+ box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ line-height: 1.6;
+}
+/* Styl pro tlačítko zpět (druhý typ) */
+.btn-secondary {
+ background-color: #555;
+ color: #fff;
+ padding: 0.75rem 1.5rem;
+ border-radius: 6px;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ display: inline-block;
+ transition: background-color 0.3s;
+}
+.btn-secondary:hover {
+ background-color: #333;
+}
+/* Kontejner pro tlačítko zpět */
+.back-container {
+ text-align: center;
+ margin: 2rem 0 4rem;
+}
+/* (Volitelné) Úprava .tutorial-content, pokud chcete trochu více odsazení */
+.tutorial-content {
+ margin-bottom: 1.5rem;
+}
+/* ======= Sekce s jedním featured boxem ======= */
+.games {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 3rem 1rem;
+ background-color: #f5f5f5;
+}
+.game-featured {
+ background: linear-gradient(to bottom right, #333, #555);
+ border-radius: 12px;
+ padding: 2.5rem 2rem;
+ text-align: center;
+ box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+ max-width: 400px;
+ width: 100%;
+}
+.game-featured h2 {
+ color: #fff;
+ font-size: 2rem;
+ margin-bottom: 0.75rem;
+}
+.game-featured p {
+ color: #ddd;
+ margin-bottom: 1.5rem;
+ font-size: 1rem;
+}
+/* Velké tlačítko pro start */
+.btn-lg {
+ display: inline-block;
+ padding: 1rem 2.5rem;
+ font-size: 1.25rem;
+ font-weight: bold;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+}
+/* (Pokud je třeba, můžete upravit background obrázek) */
+/*
+.game-featured {
+ background: url('../images/hero-bg.jpg') no-repeat center/cover;
+ color: #fff;
+}
+*/

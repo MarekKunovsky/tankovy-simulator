@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Tankový simulátor</title>
 <link rel="stylesheet" href="css/style.css" />
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K0T6FBJQ4Z"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){ dataLayer.push(arguments); }
+ gtag('js', new Date());
+ gtag('config', 'G-K0T6FBJQ4Z');
+</script>
+
 <script src="js/script.js" defer></script>
 </head>
 <body>
@@ -23,16 +33,18 @@
 <div class="hero-content">
 <h1 class="hero-title">Tankový simulátor</h1>
 <p class="hero-subtitle">
-       Staňte se velitelem tanku v realistické 3D simulaci a ovládejte svůj stroj na bojišti.
+       Staňte se velitelem tanku v realistické 3D simulaci a ovládejte svůj stroj na bojišti!
 </p>
 <a href="tutorial.html" class="btn btn-primary">Tutoriál</a>
 </div>
 </header>
-<!-- Dosavadní obsah herních boxů -->
+<!-- Hlavní box pro spuštění hry -->
 <section class="games">
-<a href="description1.html" class="game-box"></a>
-<a href="description2.html" class="game-box"></a>
-<a href="description3.html" class="game-box"></a>
+<div class="game-featured">
+<h2>Spustit hru</h2>
+<p>Okamžitě se vrhni do akce a ovládej svůj tank!</p>
+<a href="game_tank.html" class="btn btn-primary btn-lg">Start</a>
+</div>
 </section>
 <footer class="site-footer">
 <p>© 2025 Tankový simulátor. Všechna práva vyhrazena.</p>
